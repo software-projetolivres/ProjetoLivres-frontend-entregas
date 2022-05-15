@@ -11,7 +11,7 @@ app
   .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
-  .get('/', (req, res) => res.sendFile('/Users/Gabrielle/node-js-getting-started/views/pages/index.html'))
+  .get('/', (req, res) => res.sendFile('/views/pages/index.html'))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
   app.use("/cadastro", cadastro)
