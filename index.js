@@ -10,7 +10,7 @@ const login = require("./routes/login")
 app
   .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
+  //.set('view engine', 'ejs')
   .get('/', (req, res) => res.sendFile(path.join(__dirname, '../node-js-getting-started/views/pages', 'index.html')))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
