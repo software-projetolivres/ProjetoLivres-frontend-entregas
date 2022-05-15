@@ -42,6 +42,25 @@
         </div>
 
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: 'https://livres-entregas.herokuapp.com/api',
+                dataType: "jsonp",
+                jsonpCallback: "_testcb",
+                cache: false,
+                timeout: 5000,
+                success: function(data) {
+                    $("#test").append(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('error ' + textStatus + " " + errorThrown);
+                }
+            });
+        });
+    </script>
     
 </body>
 </html>

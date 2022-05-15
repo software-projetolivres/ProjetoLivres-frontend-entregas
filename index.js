@@ -25,3 +25,8 @@ app
       res.send({error: error.message})
     }
   })
+
+http.createServer(function (req, res) {
+    console.log('request received');
+    res.writeHead(200, {'Content-Type': 'text/html'});
+})
