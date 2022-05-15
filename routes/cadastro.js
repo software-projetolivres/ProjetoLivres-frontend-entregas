@@ -4,7 +4,7 @@ let router = express.Router()
 router
     .route("/")
     .get( (req, res) =>{
-        res.sendFile('/views/pages/cadastro.html')
+        res.sendFile(path.join(__dirname, '../node-js-getting-started/views/pages', 'cadastro.html'))
     })
 
 module.exports = router
