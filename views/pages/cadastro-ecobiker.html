@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livres | Cadastro Eco Bikers</title>
+    <link rel="shortcut icon" href="/images/Logo-livres.png" type="image/png">
+
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/partials/header.css">
+    <link rel="stylesheet" href="/styles/partials/forms.css">
+    <link rel="stylesheet" href="/styles/partials/page-cadastro-ecobiker.css">
+
+
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&amp;family=Poppins:wght@400;600&amp;display=swap"
+        rel="stylesheet">
+
+    <script src="/scripts/addFields.js" defer></script>
+
+</head>
+
+<body id="page-cadastro-ecobiker">
+
+    <div id="container">
+        <header class="page-header">
+
+            <div class="top-bar-container">
+                <a href="/">
+                    <img src="/images/icons/back.svg" alt="Voltar">
+                </a>
+
+                <img src="/images/Logo-livres.png" alt="Proffy">
+            </div>
+
+            <div class="header-content">
+                <strong>Cadastro Eco Bikers</strong>
+                <p>Preencha o formulario completo</p>
+            </div>
+        </header>
+
+        <main>
+            <form id="register-ecobiker">
+                <fieldset>
+                    <legend>Seus dados</legend>
+
+                    <div class="input-block">
+                        <label for="name">Nome</label>
+                        <input name="name" id="name" required>
+                    </div>
+
+                    <div class="input-block">
+                        <label for="surname">Sobrenome</label>
+                        <input name="surname" id="surname" required>
+                    </div>
+
+                    <div class="input-block">
+                        <label for="email">E-mail</label>
+                        <input name="email" id="email" required>
+                    </div>
+
+                    <div class="input-block">
+                        <label for="senha">Senha</label>
+                        <input name="password" id="password" type="password" onkeyup='check();' required />
+                    </div>
+
+                    <div class="input-block">
+                        <label for="senha">Confirmar Senha</label>
+                        <input type="password" name="confirm_password" id="confirm_password" onkeyup='check();'
+                            required />
+                        <label id='message'></label>
+                    </div>
+                </fieldset>
+            </form>
+
+            <footer>
+                <p>
+                    <img src="/images/icons/warning.svg" alt="Aviso importante">
+                    Importante! <br>
+                    Preencha todos os dados
+                </p>
+                <button id="save_register" type="submit" form="register-ecobiker">Salvar cadastro</button>
+            </footer>
+        </main>
+
+    </div>
+
+</body>
+<script>
+    var check = function () {
+        if (document.getElementById('password').value != document.getElementById('confirm_password').value) {
+            document.getElementById('message').style.color = 'red';
+            document.getElementById('message').innerHTML = 'As senhas não são iguais';
+            document.getElementById('save_register').disabled = true;
+        } else if (document.getElementById('confirm_password').value) {
+            document.getElementById('message').innerHTML = '';
+            document.getElementById('save_register').disabled = false;
+        }
+    }
+</script>
+
+</html>
