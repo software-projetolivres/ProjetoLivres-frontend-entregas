@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Livres | Cadastro Entregadores</title>
+    <title>Livres | Login Entregadores</title>
     <link rel="shortcut icon" href="/images/favicon.png" type="image/png">
 
     <link rel="stylesheet" href="/stylesheets/main.css">
@@ -24,23 +24,41 @@
 
     <div id="container">
         <header class="page-header">
+
             <div class="top-bar-container">
                 <a href="/">
                     <img src="/images/icons/back.png" alt="Voltar">
                 </a>
-
-                <img src="/images/Logo-livres.png" alt="Logo Projeto Livres">
             </div>
-
+            
+            <img src="/images/Logo-livres.png" alt="Logo Projeto Livres" class="img-logo">
             <div class="header-content">
-                <strong>Cadastro Enviado!</strong>
-                <strong>
-                    <p>Aguarde a ativação da sua conta que será realizada pelo seu gestor para que possas realizar login.</p>
-                </strong>
             </div>
         </header>
+
+        <main>
+            <form id="authentication">
+                <fieldset>
+                    <legend>Login</legend>
+                    <div class="input-block">
+                        <label for="username">E-mail</label>
+                        <input name="username" id="username" required>
+                    </div>
+
+                    <div class="input-block">
+                        <label for="password">Senha</label>
+                        <input name="password" id="password" type="password" required>
+                    </div>
+                </fieldset>
+            </form>
+
+            <footer>
+                <button id="login" type="submit" form="authentication" style="margin-left: 41rem;">Entrar</button>
+            </footer>
+        </main>
 
     </div>
 
 </body>
+
 </html>

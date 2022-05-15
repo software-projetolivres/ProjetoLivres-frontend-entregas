@@ -32,7 +32,7 @@
 
 .page-header .header-content {
     width: 90%;
-    margin: 3.2rem auto;
+    margin: 0.2rem auto;
     position: relative;
 }
 
@@ -40,6 +40,7 @@
    font: 700 3.6rem Archivo;
    line-height: 4.2rem;
    color: var(--color-title-in-primary);
+   margin-top: -160px;
 }
 
 .page-header .header-content p {
@@ -48,6 +49,13 @@
     line-height: 2.6rem;
     color: var(--color-text-in-primary);
     margin-top: 2.4rem;
+}
+
+.img-logo {
+    float: right;    
+    margin-left: 1000px;
+    width:200px;
+    height:200px;
 }
 
 @media (min-width:700px){
@@ -60,10 +68,10 @@
     }
 
     .page-header .header-content {
-        max-width: 740px;
+        max-width: 640px;
 
         margin: 0 auto;
-
+        
         flex: 1 1;
         padding-bottom: 48px;
         display: flex;
@@ -72,7 +80,7 @@
     }
 
     .page-header .header-content strong {
-        max-width: 350px;
+        max-width: 550px;
     }
 
 }

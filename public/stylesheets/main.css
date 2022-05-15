@@ -1,17 +1,17 @@
 :root {
     --color-background: #F0F0F7;
-    --color-primary-lighter: #9871F5;
-    --color-primary-light: #916BEA;
-    --color-primary: #8257E5;
-    --color-primary-dark: #774DD6;
-    --color-primary-darker: #6842c2;
-    --color-secondary: #04D361;
-    --color-secondary-dark: #04BF58;
+    --color-primary-lighter: #b7e9ff;
+    --color-primary-light: #9AE1FF;
+    --color-primary: #9AE1FF;
+    --color-primary-dark: #29abe2;
+    --color-primary-darker: #80d9ff;
+    --color-secondary: #f26a4b;
+    --color-secondary-dark: #ec431d;
     --color-title-in-primary: #FFFFFF;
-    --color-text-in-primary: #D4C2FF;
+    --color-text-in-primary: #29abe2;
     --color-text-title: #32264D;
-    --color-text-complement: #9C98A6;
-    --color-text-base: #6A6180;
+    --color-text-complement: #29abe2;
+    --color-text-base: #f26a4b;
     --color-line-in-white: #E6E6F0;
     --color-input-background: #F8F8FC;
     --color-button-text: #FFFFFF;
@@ -19,8 +19,7 @@
     --color-box-footer: #FAFAFC;
     --color-small-info: #C1BCCC;
 
-    /* 16px | 100% | 1rem -> relativo ao :root */
-    font-size: 60%; /* controle das medidas rem */
+    font-size: 60%;
 }
 
 *{
