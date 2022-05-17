@@ -13,10 +13,10 @@ app
   .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
   //.set('view engine', 'ejs')
-  .get('/', (req, res) => res.sendFile(path.join(__dirname, '../node-js-getting-started/views/pages', 'index.html')))
+  .get('/', (req, res) => res.sendFile(path.join(__dirname, '../livres-entregas-fe/views/pages', 'index.html')))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
-  app.use("/cadastro", cadastro)
+  /*app.use("/cadastro", cadastro)
   app.use("/login", login)
 
 request({url: url}, (error, response) => {
