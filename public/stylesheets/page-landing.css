@@ -49,6 +49,7 @@
 
 .buttons-container a.login{
     background: var(--color-primary-lighter);
+    color: var(--color-text-lighter-bg);
 }
 
 .buttons-container a.cadastro-ecobiker{
@@ -62,6 +63,7 @@
 
 .buttons-container a.login:hover {
     background: var(--color-primary-darker);
+    color: #ffffff;
 }
 
 .buttons-container a img{
