@@ -104,6 +104,19 @@
             "email":email,
             "senha":senha
         }
+        
+        console.log(JSON.stringify(postData))
+        fetch('https://livres-entregas.herokuapp.com/api/cadastroUsuario', {
+            method: "POST",
+            headers: {"Content-type": "application/json;charset=UTF-8"},
+            body: JSON.stringify(postData)
+          })
+          .then(response => response.json()) 
+          .then(json => console.log(json))
+          .then(window.location.href = "/cadastro-completo")
+          .catch(err => console.log(err));
+
+          console.log(JSON.stringify(postData))
     }
 </script>
 
