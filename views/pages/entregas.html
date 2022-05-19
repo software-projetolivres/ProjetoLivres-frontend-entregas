@@ -34,13 +34,18 @@
 
         <main>
             <fieldset>
-                <div class="input-block">
+                <div class="input-block" style="width:200px;">
                     <label for="data_entrega">Data Entrega</label>
-                    <input name="data_entrega" id="data_entrega" onkeyup='checkDate();' required>
-                    <label id='message'></label>
-                    <button id="carregar_entregas" type="submit">Carregar Entregas</button>
+                    <input name="data_entrega" id="data_entrega" onkeyup='checkDate()' required>
+                    <p id="message"></p>
                 </div>
             </fieldset>
+            <div class="button_carregar_entregas">
+                <button id="carregar_entregas" onclick="mostrarEntregas()">Carregar Entregas</button>
+            </div>
+            <div class="lista-entregas">
+                <p id="lista_entregas"></p>
+            </div>
         </main>
 
     </div>
@@ -51,8 +56,7 @@
         const regex = /^\d{4}-\d{2}-\d{2}$/;
       
         if (dataEntrega.match(regex) === null) {
-            document.getElementById('message').style.color = 'red';
-            document.getElementById('message').innerHTML = 'Preencha a data da entrega.';
+            document.getElementById('message').innerHTML = '<b><i>Preencha a data da entrega.</i></b>';
             document.getElementById('carregar_entregas').disabled = true;
         }
       
@@ -60,8 +64,7 @@
         const timestamp = date.getTime();
       
         if (typeof timestamp !== 'number' || Number.isNaN(timestamp)) {
-            document.getElementById('message').style.color = 'red';
-            document.getElementById('message').innerHTML = 'A data deve ser inserida no formato AAAA-MM-DD.';
+            document.getElementById('message').innerHTML = '<b><i>A data deve ser inserida no formato AAAA-MM-DD.</i></b>';
             document.getElementById('carregar_entregas').disabled = true;
         } else{
             document.getElementById('message').innerHTML = '';
@@ -69,29 +72,39 @@
         }
     }
 
-    function cadastrar(){
+    async function getEntregas(){
         event.preventDefault();
-        let nome = document.getElementById("nome").value
-        let sobrenome = document.getElementById("sobrenome").value
-        let email = document.getElementById("email").value
-        let senha = document.getElementById("senha").value
+        var url = 'https://livres-entregas.herokuapp.com/api/entregas';
+        var dataEntrega = document.getElementById('data_entrega').value;
+        var responseData;
 
         var postData = {
-            "nome":nome,
-            "sobrenome":sobrenome,
-            "email":email,
-            "senha":senha
+            "dataEntrega":dataEntrega
         }
 
-        fetch('https://livres-entregas.herokuapp.com/api/cadastroUsuario', {
-            method: "POST",
-            headers: {"Content-type": "application/json;charset=UTF-8"},
-            body: JSON.stringify(postData)
-          })
-          .then(response => response.json()) 
-          .then(json => console.log(json))
-          .then(window.location.href = "/cadastro-completo")
-          .catch(err => console.log(err));
+        try {
+            let res = await fetch(url, {
+                method: "POST",
+                headers: {"Content-type": "application/json;charset=UTF-8"},
+                body: JSON.stringify(postData)
+              });
+            return await res.json();
+        } catch (error) {
+            console.log(error);
+        } 
+    }
+
+    async function mostrarEntregas(){
+        var entregas = await getEntregas();
+        var html = '<br>';
+
+        for(var i = 0; i < entregas.length; i++){
+            html += '<input type="checkbox" id="' + entregas[i].id + '">' + '<br><b>Comunidade Consumidor: </b>' + entregas[i].comunidade_consumidor + '<br><b>Nome do Consumidor:</b> ' +
+                    entregas[i].nome_consumidor + '<br><b>Telefone:</b> ' + entregas[i].telefone_consumidor + '<br><b>Endereço: </b>' + entregas[i].endereco_entrega + '<br><b>Valor: </b>' +
+                    entregas[i].valor_entrega + "<br><br><br>";
+        }
+
+        document.getElementById("lista_entregas").innerHTML = html;
     }
 </script>
 

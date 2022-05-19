@@ -34,13 +34,15 @@
 
         <main>
             <fieldset>
-                <div class="input-block">
+                <div class="input-block" style="width:200px;">
                     <label for="data_entrega">Data Entrega</label>
                     <input name="data_entrega" id="data_entrega" onkeyup='checkDate();' required>
-                    <label id='message'></label>
-                    <button id="carregar_entregas" type="submit">Carregar Entregas</button>
+                    <p id="message"></p>
                 </div>
             </fieldset>
+            <div class="button_carregar_entregas">
+                <button id="carregar_entregas" onclick="mostrarEntregas()">Carregar Entregas</button>
+            </div>
         </main>
 
     </div>
@@ -51,8 +53,7 @@
         const regex = /^\d{4}-\d{2}-\d{2}$/;
       
         if (dataEntrega.match(regex) === null) {
-            document.getElementById('message').style.color = 'red';
-            document.getElementById('message').innerHTML = 'Preencha a data da entrega.';
+            document.getElementById('message').innerHTML = '<b><i>Preencha a data da entrega.</i></b>';
             document.getElementById('carregar_entregas').disabled = true;
         }
       
@@ -60,8 +61,7 @@
         const timestamp = date.getTime();
         
         if (typeof timestamp !== 'number' || Number.isNaN(timestamp)) {
-            document.getElementById('message').style.color = 'red';
-            document.getElementById('message').innerHTML = 'A data deve ser inserida no formato AAAA-MM-DD.';
+            document.getElementById('message').innerHTML = '<b><i>A data deve ser inserida no formato AAAA-MM-DD.</i></b>';
             document.getElementById('carregar_entregas').disabled = true;
         } else{
             document.getElementById('message').innerHTML = '';

@@ -14,7 +14,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&amp;family=Poppins:wght@400;600&amp;display=swap"
         rel="stylesheet">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
 </head>
 
 <body id="page-entregas">
@@ -34,19 +34,25 @@
         </header>
 
         <main>
-            <p>
+            <p style="margin-left:12px;margin-bottom:12px;">
                 As entregas inválidas são as que precisam ser realizadas, mas estão <b>sem endereço</b>. Portanto, é necessário ajustá-las.
             </p>
             <fieldset>
-                <div class="input-block">
+                <div class="input-block" style="width:200px;">
                     <label for="data_entrega">Data Entrega</label>
                     <input name="data_entrega" id="data_entrega" onkeyup='checkDate();' required>
-                    <label id='message'></label>
-                    <button id="entregas_invalidas" onclick="downloadFileEntregasInvalidas()">Carregar Entregas</button>
+                    <p id="message"></p>
+                </div>
+                <div class="buttons">
+                    <button id="entregas_invalidas" onclick="mostrarEntregas()">Mostrar Entregas</button>
+                    <button id="baixar_entregas" onclick="downloadFileEntregasInvalidas()" style="width:20%;margin-top:8px;margin-left:240px">Baixar</button>
                 </div>
             </fieldset>
+            
+            <div class="lista-entregas">
+                <p id="lista_entregas"></p>
+            </div>
         </main>
-
     </div>
 </body>
 <script>
@@ -55,8 +61,7 @@
         const regex = /^\d{4}-\d{2}-\d{2}$/;
       
         if (dataEntrega.match(regex) === null) {
-            document.getElementById('message').style.color = 'red';
-            document.getElementById('message').innerHTML = 'Preencha a data da entrega.';
+            document.getElementById('message').innerHTML = '<b><i>Preencha a data da entrega.</i></b>';
             document.getElementById('entregas_invalidas').disabled = true;
         }
       
@@ -64,8 +69,7 @@
         const timestamp = date.getTime();
       
         if (typeof timestamp !== 'number' || Number.isNaN(timestamp)) {
-            document.getElementById('message').style.color = 'red';
-            document.getElementById('message').innerHTML = 'A data deve ser inserida no formato AAAA-MM-DD.';
+            document.getElementById('message').innerHTML = '<b><i>A data deve ser inserida no formato AAAA-MM-DD.</i></b>';
             document.getElementById('entregas_invalidas').disabled = true;
         } else{
             document.getElementById('message').innerHTML = '';
@@ -98,6 +102,19 @@
         } catch (error) {
             console.log(error);
         }
+    }
+
+    async function mostrarEntregas(){
+        var entregas = await getEntregasInvalidas();
+        var html = '';
+
+        for(var i = 0; i < entregas.length; i++){
+            html += "<br><b>Comunidade Consumidor: </b>" + entregas[i].comunidade_consumidor + "<br><b>Nome do Consumidor:</b> " + entregas[i].nome_consumidor +
+                    "<br><b>Telefone:</b> " + entregas[i].telefone_consumidor + "<br><b>Endereço: </b>" + entregas[i].endereco_entrega + "<br><b>Valor: </b>" +
+                    entregas[i].valor_entrega + "<br><br>";
+        }
+        
+        document.getElementById("lista_entregas").innerHTML = html;
     }
 </script>
 
