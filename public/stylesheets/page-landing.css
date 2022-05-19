@@ -49,7 +49,7 @@
 
 .buttons-container a.login{
     background: var(--color-primary-lighter);
-    color: var(--color-text-lighter-bg);
+    color: #ffffff;
 }
 
 .buttons-container a.cadastro-ecobiker{

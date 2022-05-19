@@ -1,16 +1,17 @@
 :root {
     --color-background: #F0F0F7;
-    --color-primary-lighter: #bfecff;
+    --color-primary-lighter: #80d9ff;
     --color-text-lighter-bg: #76d1f8;
     --color-primary-light: #9AE1FF;
     --color-primary: #9AE1FF;
     --color-primary-dark: #29abe2;
-    --color-primary-darker: #80d9ff;
+    --color-primary-darker: #128EC3;
     --color-secondary: #f26a4b;
     --color-secondary-dark: #ec431d;
+    --color-secondary-lighter: #FDA591;
     --color-title-in-primary: #FFFFFF;
     --color-text-in-primary: #29abe2;
-    --color-text-title: #32264D;
+    --color-text-title: #6aaaff;
     --color-text-complement: #29abe2;
     --color-text-base: #f26a4b;
     --color-line-in-white: #E6E6F0;

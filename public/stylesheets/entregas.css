@@ -1,0 +1,229 @@
+#page-entregas #container {
+    width: 100vw;
+    height: 100vh;
+}
+
+#page-entregas .page-header .header-content {
+    margin-bottom: 6.4re;
+}
+
+#page-entregas main {
+    background: var(--color-box-base);
+    width: 100%;
+    max-width: 116rem;
+    border-radius: .8rem;
+    margin: -3.2rem auto 3.2rem;
+    padding-top: 6.4rem;
+}
+
+#page-entregas fieldset {
+    border: none;
+
+    padding: 2rem 3.4rem;
+}
+
+#page-entregas fieldset legend {
+    font: 700 2.4rem Archivo;
+    color: var(--color-text-title);
+    margin-bottom: 2.4rem;
+
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+
+    padding-bottom: 1.6rem;
+    border-bottom: 1px solid var(--color-line-in-white);
+}
+
+#page-entregas fieldset legend button {
+    background-color: none;
+    border: 0;
+
+    color: var(--color-primary);
+    
+    font: 700 1.6rem Archivo;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+#page-entregas fieldset legend button:hover {
+    transform: translateY(-5px);
+    color: var(--color-primary-dark);
+}
+
+
+#page-entregas fieldset+fieldset {
+    margin-top: 6.4rem;
+}
+
+#page-entregas .input-block+.input-block,
+#page-entregas .input-block+.textarea-block,
+#page-entregas .select-block+.input-block {
+    margin-top: 2.4rem;   
+}
+
+#page-entregas main footer {
+    padding: 4rem 2.4rem;
+    background: var(--color-box-footer);
+    border-top: 1px solid var(--color-line-in-white);
+    margin-top: 6.4rem;
+}
+
+#page-entregas main footer p{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+
+    color: var(--color-text-complement);
+}
+
+#page-entregas main footer p img {
+    margin-right: 2rem;
+}
+
+#page-entregas main button {
+    width: 60%;
+    height: 5.6rem;
+    background: var(--color-secondary);
+    color: var(--color-button-text);
+    border: 0;
+    border-radius: .8rem;
+    cursor: pointer;
+    font: 700 1.6rem Archivo;
+
+
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+
+    transition: 0.2s;
+    margin-top: 3.2rem;
+    margin-left: 12.2rem;
+}
+
+#page-entregas main button:hover {
+    background: var(--color-secondary-dark);
+}
+
+.schedule-item+.schedule-item {
+    margin-top: 3.2rem;
+    padding-top: 3.2rem;
+    border-top: 1px solid var(--color-line-in-white);
+}
+
+.select-block label,
+.input-block label,
+.textarea-block label {
+    font-size: 1.6rem;
+    color: var(--color-text-complement);
+}
+
+.input-block input,
+.select-block select,
+.textarea-block textarea{
+    height: 5.6rem;
+    margin-top: 0.8rem;
+    border-radius: 0.8rem;
+    background:  var(--color-input-background);
+    border: 1px solid var(--color-line-in-white);
+    outline: 0;
+    padding: 0 1.6rem;
+    font: 1.6rem Archivo;
+
+}
+
+.input-block {
+    position: relative;
+}
+
+.topnav {
+    background-color: var(--color-primary-darker);
+    overflow: hidden;
+  }
+  
+  .topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 12px;
+  }
+  
+  .topnav a:hover {
+    letter-spacing: 0.4px;
+    font-style: italic;
+    color: var(--color-primary-lighter);
+    transition: 0.2s;
+  }
+
+  .topnav a.active {
+    background-color: var(--color-secondary);
+    color: white;
+  }
+
+
+@media (min-width: 700px) {
+    #page-entregas #container {
+        max-width: 100vw;
+    }
+
+    #page-give-classses .page-header .header-content {
+        margin-bottom: 0;
+    }
+
+    #page-entregas main fieldset {
+        padding: 30px 460px;
+        margin-top: -6.6rem;
+    }
+
+    .schedule-item {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        column-gap: 1.6rem;
+    }
+
+    #page-entregas #schedule-items .select-block+.input-block,
+    #page-entregas #schedule-items .input-block+.input-block {
+            margin-top: 0;
+    }
+
+    #page-entregas main footer {
+        padding: 40px 64px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    #page-entregas main button {
+        margin-top: 0;
+
+        width: 200px;
+        margin-left: 24rem;
+        margin-top: 3.2rem;
+    }
+
+    .select-block label,
+    .input-block label,
+    .textarea-block label {
+        font-size: 1.6rem;
+        margin-left:-20rem;
+        color: var(--color-text-complement);
+    }
+
+    .topnav a {
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+    }
+}

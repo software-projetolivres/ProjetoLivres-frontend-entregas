@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livres | Entregas</title>
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/png">
+
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="stylesheet" href="/stylesheets/header.css">
+    <link rel="stylesheet" href="/stylesheets/entregas.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&amp;family=Poppins:wght@400;600&amp;display=swap"
+        rel="stylesheet">
+</head>
+
+<body id="page-entregas">
+    <div id="container">
+        <header class="page-entregas-header">
+            <div class="header-content">
+                <img src="/images/Logo-livres.png" alt="Logo Projeto Livres" class="img-logo-entregas">
+                <strong>Entregas</strong>
+            </div>
+
+            <div class="topnav">
+                <a class="active" href="/entregas">Home</a>
+                <a href="/minhas-entregas">Minhas Entregas</a>
+                <a href="/entregas-invalidas">Entregas Inválidas</a>
+                <a href="/">Sair</a>
+            </div>
+        </header>
+
+        <main>
+            <fieldset>
+                <div class="input-block">
+                    <label for="data_entrega">Data Entrega</label>
+                    <input name="data_entrega" id="data_entrega" onkeyup='checkDate();' required>
+                    <label id='message'></label>
+                    <button id="carregar_entregas" type="submit">Carregar Entregas</button>
+                </div>
+            </fieldset>
+        </main>
+
+    </div>
+</body>
+<script>
+    var checkDate = function() {
+        var dataEntrega = document.getElementById('data_entrega').value
+        const regex = /^\d{4}-\d{2}-\d{2}$/;
+      
+        if (dataEntrega.match(regex) === null) {
+            document.getElementById('message').style.color = 'red';
+            document.getElementById('message').innerHTML = 'Preencha a data da entrega.';
+            document.getElementById('carregar_entregas').disabled = true;
+        }
+      
+        const date = new Date(dataEntrega);
+        const timestamp = date.getTime();
+      
+        if (typeof timestamp !== 'number' || Number.isNaN(timestamp)) {
+            document.getElementById('message').style.color = 'red';
+            document.getElementById('message').innerHTML = 'A data deve ser inserida no formato AAAA-MM-DD.';
+            document.getElementById('carregar_entregas').disabled = true;
+        } else{
+            document.getElementById('message').innerHTML = '';
+            document.getElementById('carregar_entregas').disabled = false;
+        }
+    }
+
+    function cadastrar(){
+        event.preventDefault();
+        let nome = document.getElementById("nome").value
+        let sobrenome = document.getElementById("sobrenome").value
+        let email = document.getElementById("email").value
+        let senha = document.getElementById("senha").value
+
+        var postData = {
+            "nome":nome,
+            "sobrenome":sobrenome,
+            "email":email,
+            "senha":senha
+        }
+
+        fetch('https://livres-entregas.herokuapp.com/api/cadastroUsuario', {
+            method: "POST",
+            headers: {"Content-type": "application/json;charset=UTF-8"},
+            body: JSON.stringify(postData)
+          })
+          .then(response => response.json()) 
+          .then(json => console.log(json))
+          .then(window.location.href = "/cadastro-completo")
+          .catch(err => console.log(err));
+    }
+</script>
+
+</html>
