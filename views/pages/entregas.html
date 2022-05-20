@@ -96,15 +96,19 @@
 
     async function mostrarEntregas(){
         var entregas = await getEntregas();
-        var html = '<br>';
+        var html = '<button id="selecionar_entregas" class="selecionar" onclick="selecionarEntregas()">Selecionar Entregas</button><br>';
 
         for(var i = 0; i < entregas.length; i++){
-            html += '<input type="checkbox" id="' + entregas[i].id + '">' + '<br><b>Comunidade Consumidor: </b>' + entregas[i].comunidade_consumidor + '<br><b>Nome do Consumidor:</b> ' +
+            html += '<div class="lista-entregas-inner"><input type="checkbox" class="checkbox" id="' + entregas[i].id + '">' +  '<br><b>Comunidade Consumidor: </b>' + entregas[i].comunidade_consumidor + '<br><b>Nome do Consumidor:</b> ' +
                     entregas[i].nome_consumidor + '<br><b>Telefone:</b> ' + entregas[i].telefone_consumidor + '<br><b>Endereço: </b>' + entregas[i].endereco_entrega + '<br><b>Valor: </b>' +
-                    entregas[i].valor_entrega + "<br><br><br>";
+                    entregas[i].valor_entrega + "</div>";
         }
 
         document.getElementById("lista_entregas").innerHTML = html;
+    }
+
+    async function selecionarEntregas(){
+        //TO DO: verificar se tem pelo menos 1 entrega selecionada, se sim, pega o id do checkbox e envia pra api para selecionar
     }
 </script>
 

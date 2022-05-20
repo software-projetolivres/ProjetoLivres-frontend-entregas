@@ -184,9 +184,35 @@
     margin-left: 2rem;
     color: #000;
   }
+
+  .lista-entregas-inner {
+    position: relative;
+    margin-left: 2rem;
+    color: #000;
+    border-bottom-width: 2px;
+    border-style:dashed;
+    border-color:var(--color-secondary-lighter);
+    border-left-width: 0px;
+    border-top-width: 0px;
+    border-right-width: 0px;
+  }
   
   .lista-entregas b {
     color: var(--color-primary-darker);
+  }
+
+  .checkbox {
+    margin-top: 60px;
+    margin-left: -36px;
+    marker-mid: initial;
+    width: 25px;
+    height: 25px;
+    position: relative;
+    top: 80px;
+  }
+
+  .selecionar{
+    margin-left:310px;
   }
 
 
@@ -271,5 +297,11 @@
     .button_carregar_entregas{
         margin-left:46.5rem;
         margin-top:-12.8rem;
+    }
+
+    .checkbox {
+        margin-left: -52px;
+        width: 30px;
+        height: 30px;
     }
 }

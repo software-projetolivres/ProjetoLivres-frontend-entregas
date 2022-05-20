@@ -79,8 +79,15 @@
 
     async function downloadFileEntregasInvalidas(){
         let entregasInvalidas = await getEntregasInvalidas();
+        var texto = 'Relatório para entregas sem endereço\n';
 
-        var blob = new Blob([JSON.stringify(entregasInvalidas)],
+        for(var i = 0; i < entregasInvalidas.length; i++){
+            texto += "\nComunidade Consumidor: " + entregasInvalidas[i].comunidade_consumidor + "\nNome do Consumidor: " + entregasInvalidas[i].nome_consumidor +
+                    "\nTelefone:</b> " + entregasInvalidas[i].telefone_consumidor + "\nEndereço: " + entregasInvalidas[i].endereco_entrega + "\nValor: " +
+                    entregasInvalidas[i].valor_entrega + "\n\n";
+        }
+
+        var blob = new Blob([JSON.stringify(texto)],
         { type: "text/plain;charset=utf-8" });
         saveAs(blob, "entregasInvalidas.txt");
 
