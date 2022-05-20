@@ -36,7 +36,7 @@
             <fieldset>
                 <div class="input-block" style="width:200px;">
                     <label for="data_entrega">Data Entrega</label>
-                    <input name="data_entrega" id="data_entrega" onkeyup='checkDate()' required>
+                    <input name="data_entrega" id="data_entrega" onkeyup="checkDate()" required>
                     <p id="message"></p>
                 </div>
             </fieldset>
@@ -44,6 +44,7 @@
                 <button id="carregar_entregas" onclick="mostrarEntregas()">Carregar Entregas</button>
             </div>
             <div class="lista-entregas">
+                <p id="response" style="color:var(--color-primary-darker)"></p>
                 <p id="lista_entregas"></p>
             </div>
         </main>
@@ -108,7 +109,47 @@
     }
 
     async function selecionarEntregas(){
-        //TO DO: verificar se tem pelo menos 1 entrega selecionada, se sim, pega o id do checkbox e envia pra api para selecionar
+        var idsSelecionados = getIdsSelecionados()
+        var putData = '{"emailEntregador":"gabi.sperandeo@gmail.com", "entregas":[' //trocar pro email como var
+
+        for(var i = 0; i < idsSelecionados.length; i++){
+            putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":true, "entregue":false}, '
+
+            if(i == (idsSelecionados.length - 1)){  //é o último a ser inserido
+                putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":true, "entregue":false}]}'
+            }
+        }
+
+        atualizarDados(putData)
+    }
+
+    async function atualizarDados(putData) {
+        var url = 'https://livres-entregas.herokuapp.com/api/entregas/atualizar';
+
+        try {
+            let res = await fetch(url, {
+                method: "PUT",
+                headers: {"Content-type": "application/json;charset=UTF-8"},
+                body: putData
+              });
+
+              mostrarEntregas();
+        } catch (error) {
+            console.log(error);
+        } 
+    }
+
+    function getIdsSelecionados() {
+        var idsSelecionados = []
+
+        var inputs = document.querySelectorAll('.checkbox');   
+        for (var i = 0; i < inputs.length; i++) {   
+            if(inputs[i].checked == true){
+                idsSelecionados.push(inputs[i].id)
+            }
+        }
+
+        return idsSelecionados;
     }
 </script>
 

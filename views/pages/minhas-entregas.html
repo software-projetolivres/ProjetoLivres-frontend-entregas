@@ -43,6 +43,14 @@
             <div class="button_carregar_entregas">
                 <button id="carregar_entregas" onclick="mostrarEntregas()">Carregar Entregas</button>
             </div>
+            <botoes>
+                <p id="botoes"></p>
+            <botoes>
+
+            <div class="lista-entregas">
+                <p id="response" style="color:var(--color-primary-darker)"></p>
+                <p id="lista_entregas"></p>
+            </div>
         </main>
 
     </div>
@@ -69,29 +77,93 @@
         }
     }
 
-    function cadastrar(){
-        event.preventDefault();
-        let nome = document.getElementById("nome").value
-        let sobrenome = document.getElementById("sobrenome").value
-        let email = document.getElementById("email").value
-        let senha = document.getElementById("senha").value
+    async function getEntregasResp(){
+        var dataEntrega = document.getElementById('data_entrega').value;
+        var resp = 'gabi.sperandeo@gmail.com';
+        var responseData;
 
-        var postData = {
-            "nome":nome,
-            "sobrenome":sobrenome,
-            "email":email,
-            "senha":senha
+        var url = new URL('https://livres-entregas.herokuapp.com/api/entregas/entregasResp');
+        var params = {dataEntrega, resp};
+        url.search = new URLSearchParams(params).toString();
+
+        try {
+            let res = await fetch(url);
+            return await res.json();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function mostrarEntregas(){
+        var entregas = await getEntregasResp();
+        var botoes = '<button id="resignar_entregas" onclick="atualizar(1)" style="width:100px;">Resignar</button>' +
+                    '<button id="entregue" onclick="atualizar(2)" style="width:90px;margin-left:5px;">Entregue</button>' +
+                    '<button id="gerar_rotas" onclick="gerarRotas()" style="width:120px;margin-left:5px;">Gerar Rotas</button><br>';
+        var html = '';
+        
+        for(var i = 0; i < entregas.length; i++){
+            html += '<div class="lista-entregas-inner"><input type="checkbox" class="checkbox" id="' + entregas[i].id + '">' +  '<br><b>Comunidade Consumidor: </b>' + entregas[i].comunidade_consumidor + '<br><b>Nome do Consumidor:</b> ' +
+                    entregas[i].nome_consumidor + '<br><b>Telefone:</b> ' + entregas[i].telefone_consumidor + '<br><b>Endereço: </b>' + entregas[i].endereco_entrega + '<br><b>Valor: </b>' +
+                    entregas[i].valor_entrega + "</div>";
         }
 
-        fetch('https://livres-entregas.herokuapp.com/api/cadastroUsuario', {
-            method: "POST",
-            headers: {"Content-type": "application/json;charset=UTF-8"},
-            body: JSON.stringify(postData)
-          })
-          .then(response => response.json()) 
-          .then(json => console.log(json))
-          .then(window.location.href = "/cadastro-completo")
-          .catch(err => console.log(err));
+        document.getElementById("botoes").innerHTML = botoes;
+        document.getElementById("lista_entregas").innerHTML = html;
+    }
+
+    async function atualizar(opcao){
+        console.log(opcao);
+        var idsSelecionados = getIdsSelecionados()
+        var putData = '{"emailEntregador":"gabi.sperandeo@gmail.com", "entregas":[' //trocar pro email como var
+
+        if(opcao == 1){
+            for(var i = 0; i < idsSelecionados.length; i++){
+                putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":false, "entregue":false}, '
+    
+                if(i == (idsSelecionados.length - 1)){  //é o último a ser inserido
+                    putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":false, "entregue":false}]}'
+                }
+            }
+        } else{
+            for(var i = 0; i < idsSelecionados.length; i++){
+                putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":true, "entregue":true}, '
+    
+                if(i == (idsSelecionados.length - 1)){  //é o último a ser inserido
+                    putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":true, "entregue":true}]}'
+                }
+            }
+        }
+
+        atualizarDados(putData)
+    }
+
+    async function atualizarDados(putData) {
+        var url = 'https://livres-entregas.herokuapp.com/api/entregas/atualizar';
+
+        try {
+            let res = await fetch(url, {
+                method: "PUT",
+                headers: {"Content-type": "application/json;charset=UTF-8"},
+                body: putData
+              });
+
+              mostrarEntregas();
+        } catch (error) {
+            console.log(error);
+        } 
+    }
+
+    function getIdsSelecionados() {
+        var idsSelecionados = []
+
+        var inputs = document.querySelectorAll('.checkbox');   
+        for (var i = 0; i < inputs.length; i++) {   
+            if(inputs[i].checked == true){
+                idsSelecionados.push(inputs[i].id)
+            }
+        }
+
+        return idsSelecionados;
     }
 </script>
 
