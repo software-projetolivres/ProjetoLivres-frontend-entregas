@@ -13,7 +13,7 @@ const entregasInvalidas = require("./routes/entregas-invalidas")*/
 app
   .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
-  .get('/', (req, res) => res.sendFile('pages/index.html'))
+  .get('/', (req, res) => res.sendFile('pages/index'))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 /*app.use("/cadastro", cadastro)
