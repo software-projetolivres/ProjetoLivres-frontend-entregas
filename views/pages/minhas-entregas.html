@@ -80,14 +80,19 @@
     async function getEntregasResp(){
         var dataEntrega = document.getElementById('data_entrega').value;
         var resp = 'gabi.sperandeo@gmail.com';
-        var responseData;
-
+        var username = 'gabi.sperandeo@gmail.com';
+        var password = 'senha';
         var url = new URL('https://livres-entregas.herokuapp.com/api/entregas/entregasResp');
         var params = {dataEntrega, resp};
         url.search = new URLSearchParams(params).toString();
 
         try {
-            let res = await fetch(url);
+            let res = await fetch(url, {
+                headers: {
+                    "Authorization":"Basic " + btoa(username + ":" + password),
+                    "Content-type":"application/json;charset=UTF-8"
+                }
+            });
             return await res.json();
         } catch (error) {
             console.log(error);
@@ -112,7 +117,6 @@
     }
 
     async function atualizar(opcao){
-        console.log(opcao);
         var idsSelecionados = getIdsSelecionados()
         var putData = '{"emailEntregador":"gabi.sperandeo@gmail.com", "entregas":[' //trocar pro email como var
 
@@ -134,16 +138,23 @@
             }
         }
 
+        console.log(putData);
+
         atualizarDados(putData)
     }
 
     async function atualizarDados(putData) {
         var url = 'https://livres-entregas.herokuapp.com/api/entregas/atualizar';
+        var username = 'gabi.sperandeo@gmail.com';
+        var password = 'senha';
 
         try {
             let res = await fetch(url, {
                 method: "PUT",
-                headers: {"Content-type": "application/json;charset=UTF-8"},
+                headers: {
+                    "Authorization":"Basic " + btoa(username + ":" + password),
+                    "Content-type":"application/json;charset=UTF-8"
+                },
                 body: putData
               });
 

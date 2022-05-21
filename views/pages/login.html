@@ -37,7 +37,7 @@
         </header>
 
         <main>
-            <form id="authentication" method="post" action="https://livres-entregas.herokuapp.com/"> <!--onsubmit="autenticar()"-->
+            <form id="authentication" method="post" action="https://livres-entregas.herokuapp.com/login">
                 <fieldset>
                     <legend>Login</legend>
                     <div class="input-block">
@@ -60,56 +60,5 @@
     </div>
 
 </body>
-
-<script>
-    async function autenticar(){
-        event.preventDefault();
-        /*let username = document.getElementById("username").value
-        let password = document.getElementById("password").value
-
-        var postData = {
-            "username":username,
-            "password":password
-        }
-        
-        console.log(JSON.stringify(postData))
-        fetch('https://livres-entregas.herokuapp.com/login', {
-            method: "POST",
-            headers: {"Content-type": "application/json;charset=UTF-8"},
-            body: JSON.stringify(postData)
-          })
-          .then(response => response.json()) 
-          .then(json => console.log(json))
-          .then(window.location.href = "/entregas")
-          .catch(err => console.log(err));
-
-          console.log(JSON.stringify(postData))*/
-
-        let username = document.getElementById("username").value
-        let password = document.getElementById("password").value
-        var url = new URL('https://livres-entregas.herokuapp.com/login');
-        //url.search = new URLSearchParams(params).toString();
-
-        var postData = {
-            "username":username,
-            "password":password
-        }
-
-        console.log(url)
-        try {
-            let res = await fetch(url, {
-                //credentials:'include',
-                method: "POST",
-                headers: {"Content-type": "application/json;charset=UTF-8"},
-                body:JSON.stringify(postData)
-              });
-            console.log(res.status)
-        } catch (error) {
-            console.log(error);
-        }
-
-        //window.location.href = "/entregas"
-    }
-</script>
 
 </html>

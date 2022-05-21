@@ -28,7 +28,7 @@
                 <a class="active" href="/entregas">Home</a>
                 <a href="/minhas-entregas">Minhas Entregas</a>
                 <a href="/entregas-invalidas">Entregas Inválidas</a>
-                <a href="/">Sair</a>
+                <a href="https://livres-entregas.herokuapp.com/logout">Sair</a>
             </div>
         </header>
 
@@ -74,10 +74,10 @@
     }
 
     async function getEntregas(){
-        event.preventDefault();
         var url = 'https://livres-entregas.herokuapp.com/api/entregas';
         var dataEntrega = document.getElementById('data_entrega').value;
-        var responseData;
+        var username = 'gabi.sperandeo@gmail.com';
+        var password = 'senha';
 
         var postData = {
             "dataEntrega":dataEntrega
@@ -86,7 +86,10 @@
         try {
             let res = await fetch(url, {
                 method: "POST",
-                headers: {"Content-type": "application/json;charset=UTF-8"},
+                headers: {
+                    "Authorization":"Basic " + btoa(username + ":" + password),
+                    "Content-type":"application/json;charset=UTF-8"
+                },
                 body: JSON.stringify(postData)
               });
             return await res.json();
@@ -125,11 +128,16 @@
 
     async function atualizarDados(putData) {
         var url = 'https://livres-entregas.herokuapp.com/api/entregas/atualizar';
+        var username = 'gabi.sperandeo@gmail.com';
+        var password = 'senha';
 
         try {
             let res = await fetch(url, {
                 method: "PUT",
-                headers: {"Content-type": "application/json;charset=UTF-8"},
+                headers: {
+                    "Authorization":"Basic " + btoa(username + ":" + password),
+                    "Content-type":"application/json;charset=UTF-8"
+                },
                 body: putData
               });
 

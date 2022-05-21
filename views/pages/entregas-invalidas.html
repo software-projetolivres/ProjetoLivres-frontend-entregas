@@ -95,15 +95,20 @@
 
     async function getEntregasInvalidas(){
         var dataEntrega = document.getElementById('data_entrega').value;
-        var responseData;
-
+        var username = 'gabi.sperandeo@gmail.com';
+        var password = 'senha';
         var url = new URL('https://livres-entregas.herokuapp.com/api/entregas/entregasInvalidas');
         var params = {dataEntrega};
 
         url.search = new URLSearchParams(params).toString();
 
         try {
-            let res = await fetch(url);
+            let res = await fetch(url, {
+                headers: {
+                    "Authorization":"Basic " + btoa(username + ":" + password),
+                    "Content-type":"application/json;charset=UTF-8"
+                }
+            });
             return await res.json();
         } catch (error) {
             console.log(error);
