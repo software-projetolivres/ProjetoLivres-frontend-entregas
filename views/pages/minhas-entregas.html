@@ -79,9 +79,7 @@
 
     async function getEntregasResp(){
         var dataEntrega = document.getElementById('data_entrega').value;
-        var resp = 'gabi.sperandeo@gmail.com';
-        var username = 'gabi.sperandeo@gmail.com';
-        var password = 'senha';
+        var resp = sessionStorage.getItem('email');
         var url = new URL('https://livres-entregas.herokuapp.com/api/entregas/entregasResp');
         var params = {dataEntrega, resp};
         url.search = new URLSearchParams(params).toString();
@@ -89,7 +87,7 @@
         try {
             let res = await fetch(url, {
                 headers: {
-                    "Authorization":"Basic " + btoa(username + ":" + password),
+                    "Authorization":"Basic " + sessionStorage.getItem('authorization'),
                     "Content-type":"application/json;charset=UTF-8"
                 }
             });
@@ -109,7 +107,7 @@
         for(var i = 0; i < entregas.length; i++){
             html += '<div class="lista-entregas-inner"><input type="checkbox" class="checkbox" id="' + entregas[i].id + '">' +  '<br><b>Comunidade Consumidor: </b>' + entregas[i].comunidade_consumidor + '<br><b>Nome do Consumidor:</b> ' +
                     entregas[i].nome_consumidor + '<br><b>Telefone:</b> ' + entregas[i].telefone_consumidor + '<br><b>Endereço: </b>' + entregas[i].endereco_entrega + '<br><b>Valor: </b>' +
-                    entregas[i].valor_entrega + "</div>";
+                    entregas[i].valor_entrega + '</div>';
         }
 
         document.getElementById("botoes").innerHTML = botoes;
@@ -118,41 +116,38 @@
 
     async function atualizar(opcao){
         var idsSelecionados = getIdsSelecionados()
-        var putData = '{"emailEntregador":"gabi.sperandeo@gmail.com", "entregas":[' //trocar pro email como var
+        var email = sessionStorage.getItem('email');
+        var putData = '{"emailEntregador":"' + email + '", "entregas":['
 
         if(opcao == 1){
-            for(var i = 0; i < idsSelecionados.length; i++){
-                putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":false, "entregue":false}, '
-    
+            for(var i = 0; i < idsSelecionados.length; i++){   
                 if(i == (idsSelecionados.length - 1)){  //é o último a ser inserido
                     putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":false, "entregue":false}]}'
+                } else{
+                    putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":false, "entregue":false}, '
                 }
             }
         } else{
-            for(var i = 0; i < idsSelecionados.length; i++){
-                putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":true, "entregue":true}, '
-    
+            for(var i = 0; i < idsSelecionados.length; i++){    
                 if(i == (idsSelecionados.length - 1)){  //é o último a ser inserido
                     putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":true, "entregue":true}]}'
+                } else{
+                    putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":true, "entregue":true}, '
                 }
             }
         }
-
-        console.log(putData);
 
         atualizarDados(putData)
     }
 
     async function atualizarDados(putData) {
         var url = 'https://livres-entregas.herokuapp.com/api/entregas/atualizar';
-        var username = 'gabi.sperandeo@gmail.com';
-        var password = 'senha';
 
         try {
             let res = await fetch(url, {
                 method: "PUT",
                 headers: {
-                    "Authorization":"Basic " + btoa(username + ":" + password),
+                    "Authorization":"Basic " + sessionStorage.getItem('authorization'),
                     "Content-type":"application/json;charset=UTF-8"
                 },
                 body: putData
@@ -162,6 +157,21 @@
         } catch (error) {
             console.log(error);
         } 
+    }
+
+    async function gerarRotas() {
+        var idsSelecionados = getIdsSelecionados()
+        var putData = '{"entregas":['
+
+        for(var i = 0; i < idsSelecionados.length; i++){
+            if(i == (idsSelecionados.length - 1)){  //é o último a ser inserido
+                putData += '{"id_entrega":"' + idsSelecionados[i] + '"}]}'
+            } else{
+                putData += '{"id_entrega":"' + idsSelecionados[i] + '"}, '
+            }
+        }
+
+        console.log(putData);
     }
 
     function getIdsSelecionados() {

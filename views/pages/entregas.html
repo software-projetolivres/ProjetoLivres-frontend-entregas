@@ -76,8 +76,6 @@
     async function getEntregas(){
         var url = 'https://livres-entregas.herokuapp.com/api/entregas';
         var dataEntrega = document.getElementById('data_entrega').value;
-        var username = 'gabi.sperandeo@gmail.com';
-        var password = 'senha';
 
         var postData = {
             "dataEntrega":dataEntrega
@@ -87,7 +85,7 @@
             let res = await fetch(url, {
                 method: "POST",
                 headers: {
-                    "Authorization":"Basic " + btoa(username + ":" + password),
+                    "Authorization":"Basic " + sessionStorage.getItem('authorization'),
                     "Content-type":"application/json;charset=UTF-8"
                 },
                 body: JSON.stringify(postData)
@@ -113,13 +111,14 @@
 
     async function selecionarEntregas(){
         var idsSelecionados = getIdsSelecionados()
-        var putData = '{"emailEntregador":"gabi.sperandeo@gmail.com", "entregas":[' //trocar pro email como var
+        var email = sessionStorage.getItem('email');
+        var putData = '{"emailEntregador":"' + email + '", "entregas":['
 
         for(var i = 0; i < idsSelecionados.length; i++){
-            putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":true, "entregue":false}, '
-
             if(i == (idsSelecionados.length - 1)){  //é o último a ser inserido
                 putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":true, "entregue":false}]}'
+            } else{
+                putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":true, "entregue":false}, '
             }
         }
 
@@ -128,14 +127,12 @@
 
     async function atualizarDados(putData) {
         var url = 'https://livres-entregas.herokuapp.com/api/entregas/atualizar';
-        var username = 'gabi.sperandeo@gmail.com';
-        var password = 'senha';
 
         try {
             let res = await fetch(url, {
                 method: "PUT",
                 headers: {
-                    "Authorization":"Basic " + btoa(username + ":" + password),
+                    "Authorization":"Basic " + sessionStorage.getItem('authorization'),
                     "Content-type":"application/json;charset=UTF-8"
                 },
                 body: putData

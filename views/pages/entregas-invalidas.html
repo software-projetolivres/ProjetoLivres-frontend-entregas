@@ -95,8 +95,6 @@
 
     async function getEntregasInvalidas(){
         var dataEntrega = document.getElementById('data_entrega').value;
-        var username = 'gabi.sperandeo@gmail.com';
-        var password = 'senha';
         var url = new URL('https://livres-entregas.herokuapp.com/api/entregas/entregasInvalidas');
         var params = {dataEntrega};
 
@@ -105,7 +103,7 @@
         try {
             let res = await fetch(url, {
                 headers: {
-                    "Authorization":"Basic " + btoa(username + ":" + password),
+                    "Authorization":"Basic " + sessionStorage.getItem('authorization'),
                     "Content-type":"application/json;charset=UTF-8"
                 }
             });

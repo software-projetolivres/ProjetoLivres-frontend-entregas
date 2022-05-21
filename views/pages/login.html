@@ -53,12 +53,21 @@
             </form>
 
             <footer>
-                <button id="login" type="submit" form="authentication">Entrar</button>
+                <button id="login" type="submit" form="authentication" onclick="store()">Entrar</button>
             </footer>
         </main>
 
     </div>
 
 </body>
+
+<script>
+    function store(){
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+        sessionStorage.setItem('email', username);
+        sessionStorage.setItem('authorization', btoa(username + ":" + password));
+    }
+</script>
 
 </html>
