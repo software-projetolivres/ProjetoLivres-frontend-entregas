@@ -14,6 +14,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&amp;family=Poppins:wght@400;600&amp;display=swap"
         rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-oj3V655rj-a0F3KhYYY9q2cMP8qq7UA&libraries=geometry&amp"></script>
+
 </head>
 
 <body id="page-entregas">
@@ -52,6 +55,16 @@
                 <p id="lista_entregas"></p>
             </div>
         </main>
+
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+              <span onclick="document.getElementById('myModal').style.display='none'" class="close">&times;</span>
+              <div id="map"></div>
+              <div class="legenda">
+                <p id="legenda" style="margin-left: 12px;"></p>
+              </div>
+            </div>
+        </div>
 
     </div>
 </body>
@@ -158,20 +171,104 @@
             console.log(error);
         } 
     }
+    
+    function gerarRotas() {
+        if(idsSelecionados.length > 9){
+            document.getElementById('message').innerHTML = 'Você selecionou ' + idsSelecionados.length + ' entregas. A quantidade máxima para gerar rotas é 9.';
+        } else{
+            var idsSelecionados = getIdsSelecionados();
+            var jsonData;
+            var postData = '{"entregas":[';
+            var url = 'https://livres-entregas.herokuapp.com/api/entregas/roteirizar';
 
-    async function gerarRotas() {
-        var idsSelecionados = getIdsSelecionados()
-        var putData = '{"entregas":['
+            for(var i = 0; i < idsSelecionados.length; i++){
+                if(i == (idsSelecionados.length - 1)){  //é o último a ser inserido
+                    postData += '{"id_entrega":"' + idsSelecionados[i] + '"}]}'
+                } else{
+                    postData += '{"id_entrega":"' + idsSelecionados[i] + '"}, '
+                }
+            }
+    
+            //consumindo api
+            const rotas = fetch(url, {
+                method: "POST",
+                headers: {
+                    "Authorization":"Basic " + sessionStorage.getItem('authorization'),
+                    "Content-type":"application/json;charset=UTF-8"
+                },
+                body: postData
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                return data;
+            });
+        
+            const printRotas = async () => {
+                const a = await rotas;
+                console.log(a);
+    
+                initMap(a);
+                document.getElementById('myModal').style.display='block';
+            };
+              
+            printRotas();
+        }
+    }
 
-        for(var i = 0; i < idsSelecionados.length; i++){
-            if(i == (idsSelecionados.length - 1)){  //é o último a ser inserido
-                putData += '{"id_entrega":"' + idsSelecionados[i] + '"}]}'
-            } else{
-                putData += '{"id_entrega":"' + idsSelecionados[i] + '"}, '
+    function initMap(responseMap) {
+        var path = [];
+        var points = new Array();
+        var legenda = '<br><br><strong>Legenda:</strong><br>';
+
+        var directionsRenderer = new google.maps.DirectionsRenderer({
+            draggable: false
+        });
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 14,
+            center: {lat: -23.944841, lng: -46.330376}
+        });
+
+        directionsRenderer.setMap(map);
+
+        //decodificando o overviewPolyline
+        decodedSets = google.maps.geometry.encoding.decodePath(responseMap.routes[0].overviewPolyline.encodedPath).toString();
+        decodedSets=decodedSets.replace(/\,\(/gi, "");
+        decodedSets=decodedSets.replace(/\(/gi, "");
+
+        var brokenstring = decodedSets.split(")");
+        for(var i in brokenstring){
+            if(brokenstring[i].length>1){
+                points = brokenstring[i].split(",");
+                myLatLng = new google.maps.LatLng(points[0],points[1]);
+                path.push(myLatLng);
             }
         }
 
-        console.log(putData);
+        //criando os marcadores no mapa
+        for(i = 0; i < responseMap.routes[0].legs.length; i++){
+            let marker = new google.maps.Marker({
+                position: new google.maps.LatLng(responseMap.routes[0].legs[i].startLocation.lat, responseMap.routes[0].legs[i].startLocation.lng),
+                label: (i == 0 || i%4 == 0) ? 'Origem' : (i).toString(),
+                map: map
+            });
+
+            if(i == 0){
+                legenda += '<b>Marcador <u>' + marker.label + '</b></u>: ' + responseMap.routes[0].legs[i].startAddress + '<br>';
+            } else if(i%4 != 0){
+                legenda += '<b>Marcador <u>' + marker.label + '</b></u>: ' + responseMap.routes[0].legs[i].startAddress + '<br>';
+            }
+        }
+        
+        document.getElementById('legenda').innerHTML = legenda;
+        renderPolyline(path, map);
+    }
+
+    function renderPolyline(path, map) {
+        new google.maps.Polyline({
+            path: path,
+            map: map
+        });
     }
 
     function getIdsSelecionados() {
