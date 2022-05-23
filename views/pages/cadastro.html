@@ -93,11 +93,10 @@
 
     function cadastrar(){
         event.preventDefault();
-        let nome = document.getElementById("nome").value;
-        let sobrenome = document.getElementById("sobrenome").value;
-        let email = document.getElementById("email").value;
-        let senha = document.getElementById("senha").value;
-        let url = 'https://livres-entregas.herokuapp.com/api/cadastroUsuario';
+        let nome = document.getElementById("nome").value
+        let sobrenome = document.getElementById("sobrenome").value
+        let email = document.getElementById("email").value
+        let senha = document.getElementById("senha").value
 
         var postData = {
             "nome":nome,
@@ -106,7 +105,7 @@
             "senha":senha
         }
 
-        fetch(url, {
+        fetch('https://livres-entregas.herokuapp.com/api/cadastroUsuario', {
             method: "POST",
             headers: {"Content-type": "application/json;charset=UTF-8"},
             body: JSON.stringify(postData)

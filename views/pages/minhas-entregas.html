@@ -61,7 +61,7 @@
               <span onclick="document.getElementById('myModal').style.display='none'" class="close">&times;</span>
               <div id="map"></div>
               <div class="legenda">
-                <p id="legenda" style="margin-left: 12px;"></p>
+                <p id="infos" style="margin-left: 12px;"></p>
               </div>
             </div>
         </div>
@@ -173,10 +173,10 @@
     }
     
     function gerarRotas() {
+        var idsSelecionados = getIdsSelecionados();
         if(idsSelecionados.length > 9){
             document.getElementById('message').innerHTML = 'Você selecionou ' + idsSelecionados.length + ' entregas. A quantidade máxima para gerar rotas é 9.';
         } else{
-            var idsSelecionados = getIdsSelecionados();
             var jsonData;
             var postData = '{"entregas":[';
             var url = 'https://livres-entregas.herokuapp.com/api/entregas/roteirizar';
@@ -218,6 +218,7 @@
     function initMap(responseMap) {
         var path = [];
         var points = new Array();
+        var caminho = '<br><br><strong>Caminho:</strong><br>';
         var legenda = '<br><br><strong>Legenda:</strong><br>';
 
         var directionsRenderer = new google.maps.DirectionsRenderer({
@@ -258,9 +259,12 @@
             } else if(i%4 != 0){
                 legenda += '<b>Marcador <u>' + marker.label + '</b></u>: ' + responseMap.routes[0].legs[i].startAddress + '<br>';
             }
+
+            caminho += '<b> -> </b>' + marker.label;
         }
         
-        document.getElementById('legenda').innerHTML = legenda;
+        var infos = caminho + legenda;
+        document.getElementById('infos').innerHTML = infos;
         renderPolyline(path, map);
     }
 
