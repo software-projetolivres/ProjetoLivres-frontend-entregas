@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Livres | Entregas</title>
-    <link rel="shortcut icon" href="/images/favicon.png" type="image/png">
 
+    <title>Livres | Entregas</title>
+
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/png">
     <link rel="stylesheet" href="/stylesheets/main.css">
     <link rel="stylesheet" href="/stylesheets/header.css">
     <link rel="stylesheet" href="/stylesheets/entregas.css">
-
     <link
         href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&amp;family=Poppins:wght@400;600&amp;display=swap"
         rel="stylesheet">
@@ -49,7 +49,6 @@
                 <p id="lista_entregas"></p>
             </div>
         </main>
-
     </div>
 </body>
 <script>
@@ -79,16 +78,21 @@
 
     /* função responsável por listar na tela algumas informações sobre as entregas daquela data que ainda não foram selecionadas nem entregues */
     async function mostrarEntregas(){
-        var entregas = await getEntregas();
-        var html = '<button id="selecionar_entregas" class="selecionar" onclick="selecionarEntregas()">Selecionar Entregas</button><br>';
+        var mostrarErro = isDataPassada()
+        if(mostrarErro){
+            var entregas = await getEntregas();
+            var html = '<button id="selecionar_entregas" class="selecionar" onclick="selecionarEntregas()">Selecionar Entregas</button><br>';
 
-        for(var i = 0; i < entregas.length; i++){
-            html += '<div class="lista-entregas-inner"><input type="checkbox" class="checkbox" id="' + entregas[i].id + '">' +  '<br><b>Comunidade Consumidor: </b>' +
-                entregas[i].comunidade_consumidor + '<br><b>Nome do Consumidor:</b> ' + entregas[i].nome_consumidor + '<br><b>Telefone:</b> ' +
-                entregas[i].telefone_consumidor + '<br><b>Endereço: </b>' + entregas[i].endereco_entrega + '<br><b>Valor: </b>' + entregas[i].valor_entrega + "</div>";
+            for(var i = 0; i < entregas.length; i++){
+                html += '<div class="lista-entregas-inner"><input type="checkbox" class="checkbox" id="' + entregas[i].id + '">' +  '<br><b>Comunidade Consumidor: </b>' +
+                    entregas[i].comunidade_consumidor + '<br><b>Nome do Consumidor:</b> ' + entregas[i].nome_consumidor + '<br><b>Telefone:</b> ' +
+                    entregas[i].telefone_consumidor + '<br><b>Endereço: </b>' + entregas[i].endereco_entrega + '<br><b>Valor: </b>' + entregas[i].valor_entrega + "</div>";
+            }
+
+            document.getElementById("lista_entregas").innerHTML = html;
+        } else{
+            document.getElementById('message').innerHTML = '<b><i>A data precisa ser maior ou igual a hoje.</i></b>';
         }
-
-        document.getElementById("lista_entregas").innerHTML = html;
     }
 
     /* função responsável pela montagem do corpo da requisição de atualização para atualizar no BD as entregas que serão selecionadas */

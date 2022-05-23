@@ -5,7 +5,6 @@ function checkDate() {
   
     if (dataEntrega.match(regex) === null) {
         document.getElementById('message').innerHTML = '<b><i>A data deve ser inserida no formato AAAA-MM-DD.</i></b>';
-        document.getElementById('entregas_invalidas').disabled = true;
     }
   
     const date = new Date(dataEntrega);
@@ -13,10 +12,24 @@ function checkDate() {
   
     if (typeof timestamp !== 'number' || Number.isNaN(timestamp)) {
         document.getElementById('message').innerHTML = '<b><i>A data deve ser inserida no formato AAAA-MM-DD.</i></b>';
-        document.getElementById('entregas_invalidas').disabled = true;
     } else{
         document.getElementById('message').innerHTML = '';
-        document.getElementById('entregas_invalidas').disabled = false;
+    }
+}
+
+/* função responsável por retornar verdadeiro se for uma data do passado e falso se for uma data >= hoje */
+function isDataPassada() {
+    var dataEntrega = document.getElementById('data_entrega').value
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+    today = mm + '-' + dd + '-' + yyyy;
+
+    if(dataEntrega < today){
+        return true;
+    } else{
+        return false;
     }
 }
 
