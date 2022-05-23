@@ -14,6 +14,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&amp;family=Poppins:wght@400;600&amp;display=swap"
         rel="stylesheet">
+    <script type="text/javascript" src="/scripts/pages-entregas-scripts.js"></script>
 </head>
 
 <body id="page-entregas">
@@ -52,27 +53,7 @@
     </div>
 </body>
 <script>
-    var checkDate = function() {
-        var dataEntrega = document.getElementById('data_entrega').value
-        const regex = /^\d{4}-\d{2}-\d{2}$/;
-      
-        if (dataEntrega.match(regex) === null) {
-            document.getElementById('message').innerHTML = '<b><i>Preencha a data da entrega.</i></b>';
-            document.getElementById('carregar_entregas').disabled = true;
-        }
-      
-        const date = new Date(dataEntrega);
-        const timestamp = date.getTime();
-      
-        if (typeof timestamp !== 'number' || Number.isNaN(timestamp)) {
-            document.getElementById('message').innerHTML = '<b><i>A data deve ser inserida no formato AAAA-MM-DD.</i></b>';
-            document.getElementById('carregar_entregas').disabled = true;
-        } else{
-            document.getElementById('message').innerHTML = '';
-            document.getElementById('carregar_entregas').disabled = false;
-        }
-    }
-
+    /* função responsável por realizar a chamada da api que cria/atualiza as entregas conforme data passada */
     async function getEntregas(){
         var url = 'https://livres-entregas.herokuapp.com/api/entregas';
         var dataEntrega = document.getElementById('data_entrega').value;
@@ -96,19 +77,21 @@
         } 
     }
 
+    /* função responsável por listar na tela algumas informações sobre as entregas daquela data que ainda não foram selecionadas nem entregues */
     async function mostrarEntregas(){
         var entregas = await getEntregas();
         var html = '<button id="selecionar_entregas" class="selecionar" onclick="selecionarEntregas()">Selecionar Entregas</button><br>';
 
         for(var i = 0; i < entregas.length; i++){
-            html += '<div class="lista-entregas-inner"><input type="checkbox" class="checkbox" id="' + entregas[i].id + '">' +  '<br><b>Comunidade Consumidor: </b>' + entregas[i].comunidade_consumidor + '<br><b>Nome do Consumidor:</b> ' +
-                    entregas[i].nome_consumidor + '<br><b>Telefone:</b> ' + entregas[i].telefone_consumidor + '<br><b>Endereço: </b>' + entregas[i].endereco_entrega + '<br><b>Valor: </b>' +
-                    entregas[i].valor_entrega + "</div>";
+            html += '<div class="lista-entregas-inner"><input type="checkbox" class="checkbox" id="' + entregas[i].id + '">' +  '<br><b>Comunidade Consumidor: </b>' +
+                entregas[i].comunidade_consumidor + '<br><b>Nome do Consumidor:</b> ' + entregas[i].nome_consumidor + '<br><b>Telefone:</b> ' +
+                entregas[i].telefone_consumidor + '<br><b>Endereço: </b>' + entregas[i].endereco_entrega + '<br><b>Valor: </b>' + entregas[i].valor_entrega + "</div>";
         }
 
         document.getElementById("lista_entregas").innerHTML = html;
     }
 
+    /* função responsável pela montagem do corpo da requisição de atualização para atualizar no BD as entregas que serão selecionadas */
     async function selecionarEntregas(){
         var idsSelecionados = getIdsSelecionados()
         var email = sessionStorage.getItem('email');
@@ -123,38 +106,6 @@
         }
 
         atualizarDados(putData)
-    }
-
-    async function atualizarDados(putData) {
-        var url = 'https://livres-entregas.herokuapp.com/api/entregas/atualizar';
-
-        try {
-            let res = await fetch(url, {
-                method: "PUT",
-                headers: {
-                    "Authorization":"Basic " + sessionStorage.getItem('authorization'),
-                    "Content-type":"application/json;charset=UTF-8"
-                },
-                body: putData
-              });
-
-              mostrarEntregas();
-        } catch (error) {
-            console.log(error);
-        } 
-    }
-
-    function getIdsSelecionados() {
-        var idsSelecionados = []
-
-        var inputs = document.querySelectorAll('.checkbox');   
-        for (var i = 0; i < inputs.length; i++) {   
-            if(inputs[i].checked == true){
-                idsSelecionados.push(inputs[i].id)
-            }
-        }
-
-        return idsSelecionados;
     }
 </script>
 

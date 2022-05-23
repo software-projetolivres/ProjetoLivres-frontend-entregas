@@ -16,7 +16,7 @@
         rel="stylesheet">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-oj3V655rj-a0F3KhYYY9q2cMP8qq7UA&libraries=geometry&amp"></script>
-
+    <script type="text/javascript" src="/scripts/pages-entregas-scripts.js"></script>
 </head>
 
 <body id="page-entregas">
@@ -69,27 +69,7 @@
     </div>
 </body>
 <script>
-    var checkDate = function() {
-        var dataEntrega = document.getElementById('data_entrega').value
-        const regex = /^\d{4}-\d{2}-\d{2}$/;
-      
-        if (dataEntrega.match(regex) === null) {
-            document.getElementById('message').innerHTML = '<b><i>Preencha a data da entrega.</i></b>';
-            document.getElementById('carregar_entregas').disabled = true;
-        }
-      
-        const date = new Date(dataEntrega);
-        const timestamp = date.getTime();
-        
-        if (typeof timestamp !== 'number' || Number.isNaN(timestamp)) {
-            document.getElementById('message').innerHTML = '<b><i>A data deve ser inserida no formato AAAA-MM-DD.</i></b>';
-            document.getElementById('carregar_entregas').disabled = true;
-        } else{
-            document.getElementById('message').innerHTML = '';
-            document.getElementById('carregar_entregas').disabled = false;
-        }
-    }
-
+    /* função responsável por realizar a chamada da api que busca as entregas conforme data passada e o entregador logado */
     async function getEntregasResp(){
         var dataEntrega = document.getElementById('data_entrega').value;
         var resp = sessionStorage.getItem('email');
@@ -110,6 +90,7 @@
         }
     }
 
+    /* função responsável por listar na tela algumas informações sobre as entregas daquela data que foram selecionadas pelo entregador logado */
     async function mostrarEntregas(){
         var entregas = await getEntregasResp();
         var botoes = '<button id="resignar_entregas" onclick="atualizar(1)" style="width:100px;">Resignar</button>' +
@@ -118,15 +99,17 @@
         var html = '';
         
         for(var i = 0; i < entregas.length; i++){
-            html += '<div class="lista-entregas-inner"><input type="checkbox" class="checkbox" id="' + entregas[i].id + '">' +  '<br><b>Comunidade Consumidor: </b>' + entregas[i].comunidade_consumidor + '<br><b>Nome do Consumidor:</b> ' +
-                    entregas[i].nome_consumidor + '<br><b>Telefone:</b> ' + entregas[i].telefone_consumidor + '<br><b>Endereço: </b>' + entregas[i].endereco_entrega + '<br><b>Valor: </b>' +
-                    entregas[i].valor_entrega + '</div>';
+            html += '<div class="lista-entregas-inner"><input type="checkbox" class="checkbox" id="' + entregas[i].id + '">' +  '<br><b>Comunidade Consumidor: </b>' +
+                entregas[i].comunidade_consumidor + '<br><b>Nome do Consumidor:</b> ' + entregas[i].nome_consumidor + '<br><b>Telefone:</b> ' + entregas[i].telefone_consumidor +
+                '<br><b>Endereço: </b>' + entregas[i].endereco_entrega + '<br><b>Valor: </b>' + entregas[i].valor_entrega + '</div>';
         }
 
         document.getElementById("botoes").innerHTML = botoes;
         document.getElementById("lista_entregas").innerHTML = html;
     }
 
+    /* função responsável pela montagem do corpo da requisição de atualização para atualizar no BD caso as entregas tenham sido marcadas como
+        entregues ou tenham sido resignadas */
     async function atualizar(opcao){
         var idsSelecionados = getIdsSelecionados()
         var email = sessionStorage.getItem('email');
@@ -152,26 +135,8 @@
 
         atualizarDados(putData)
     }
-
-    async function atualizarDados(putData) {
-        var url = 'https://livres-entregas.herokuapp.com/api/entregas/atualizar';
-
-        try {
-            let res = await fetch(url, {
-                method: "PUT",
-                headers: {
-                    "Authorization":"Basic " + sessionStorage.getItem('authorization'),
-                    "Content-type":"application/json;charset=UTF-8"
-                },
-                body: putData
-              });
-
-              mostrarEntregas();
-        } catch (error) {
-            console.log(error);
-        } 
-    }
     
+    /* função responsável por gerar as rotas conforme entregas selecionadas através da chamada da api */
     function gerarRotas() {
         var idsSelecionados = getIdsSelecionados();
         if(idsSelecionados.length > 9){
@@ -189,7 +154,7 @@
                 }
             }
     
-            //consumindo api
+            //chamando a api para montagem das rotas otimizadas
             const rotas = fetch(url, {
                 method: "POST",
                 headers: {
@@ -215,6 +180,7 @@
         }
     }
 
+    /* função responsável pela montagem do Google Maps com as rotas e respectivos marcadores */
     function initMap(responseMap) {
         var path = [];
         var points = new Array();
@@ -246,6 +212,8 @@
             }
         }
 
+        renderPolyline(path, map);
+
         //criando os marcadores no mapa
         for(i = 0; i < responseMap.routes[0].legs.length; i++){
             let marker = new google.maps.Marker({
@@ -254,38 +222,27 @@
                 map: map
             });
 
+            //preenchendo as informações da legenda
             if(i == 0){
                 legenda += '<b>Marcador <u>' + marker.label + '</b></u>: ' + responseMap.routes[0].legs[i].startAddress + '<br>';
             } else if(i%4 != 0){
                 legenda += '<b>Marcador <u>' + marker.label + '</b></u>: ' + responseMap.routes[0].legs[i].startAddress + '<br>';
             }
 
+            //preenchendo as informações do caminho
             caminho += '<b> -> </b>' + marker.label;
         }
         
         var infos = caminho + legenda;
         document.getElementById('infos').innerHTML = infos;
-        renderPolyline(path, map);
     }
 
+    /* função responsável por renderizar as polylines decodificadas no mapa */
     function renderPolyline(path, map) {
         new google.maps.Polyline({
             path: path,
             map: map
         });
-    }
-
-    function getIdsSelecionados() {
-        var idsSelecionados = []
-
-        var inputs = document.querySelectorAll('.checkbox');   
-        for (var i = 0; i < inputs.length; i++) {   
-            if(inputs[i].checked == true){
-                idsSelecionados.push(inputs[i].id)
-            }
-        }
-
-        return idsSelecionados;
     }
 </script>
 

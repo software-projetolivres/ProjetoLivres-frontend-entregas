@@ -15,6 +15,7 @@
         href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&amp;family=Poppins:wght@400;600&amp;display=swap"
         rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+    <script type="text/javascript" src="/scripts/pages-entregas-scripts.js"></script>
 </head>
 
 <body id="page-entregas">
@@ -56,27 +57,6 @@
     </div>
 </body>
 <script>
-    var checkDate = function() {
-        var dataEntrega = document.getElementById('data_entrega').value
-        const regex = /^\d{4}-\d{2}-\d{2}$/;
-      
-        if (dataEntrega.match(regex) === null) {
-            document.getElementById('message').innerHTML = '<b><i>Preencha a data da entrega.</i></b>';
-            document.getElementById('entregas_invalidas').disabled = true;
-        }
-      
-        const date = new Date(dataEntrega);
-        const timestamp = date.getTime();
-      
-        if (typeof timestamp !== 'number' || Number.isNaN(timestamp)) {
-            document.getElementById('message').innerHTML = '<b><i>A data deve ser inserida no formato AAAA-MM-DD.</i></b>';
-            document.getElementById('entregas_invalidas').disabled = true;
-        } else{
-            document.getElementById('message').innerHTML = '';
-            document.getElementById('entregas_invalidas').disabled = false;
-        }
-    }
-
     async function downloadFileEntregasInvalidas(){
         let entregasInvalidas = await getEntregasInvalidas();
         var texto = "Relatório para entregas sem endereço para a data: " + entregasInvalidas[0].data_entrega + "\n";
