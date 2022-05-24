@@ -105,8 +105,7 @@
         fetch('https://livres-entregas.herokuapp.com/api/cadastroUsuario', {
             method: "POST",
             headers: {"Content-type": "application/json;charset=UTF-8"},
-            body: JSON.stringify(postData),
-            mode: 'no-cors'
+            body: JSON.stringify(postData)
           })
           .then(response => response.json()) 
           .then(json => console.log(json))
