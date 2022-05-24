@@ -106,7 +106,7 @@
             method: "POST",
             headers: {"Content-type": "application/json;charset=UTF-8"},
             body: JSON.stringify(postData),
-            mode: 'cors'
+            mode: 'no-cors'
           })
           .then(response => response.json()) 
           .then(json => console.log(json))
