@@ -58,8 +58,10 @@
 </body>
 <script>
     async function downloadFileEntregasInvalidas(){
-        var mostrarErro = isDataPassada()
+        var mostrarErro = isDataPassada();
         if(mostrarErro){
+            document.getElementById('message').innerHTML = '<b><i>A data precisa ser maior ou igual a hoje.</i></b>';
+        } else{
             let entregasInvalidas = await getEntregasInvalidas();
             var texto = "Relatório para entregas sem endereço para a data: " + entregasInvalidas[0].data_entrega + "\n";
 
@@ -73,8 +75,6 @@
             saveAs(blob, "entregasInvalidas.txt");
 
             window.location.href = "/entregas-invalidas"
-        } else{
-            document.getElementById('message').innerHTML = '<b><i>A data precisa ser maior ou igual a hoje.</i></b>';
         }
         
     }
@@ -100,8 +100,10 @@
     }
 
     async function mostrarEntregas(){
-        var mostrarErro = isDataPassada()
+        var mostrarErro = isDataPassada();
         if(mostrarErro){
+            document.getElementById('message').innerHTML = '<b><i>A data precisa ser maior ou igual a hoje.</i></b>';
+        } else{
             var entregas = await getEntregasInvalidas();
             var html = '';
 
@@ -112,8 +114,6 @@
             }
             
             document.getElementById("lista_entregas").innerHTML = html;
-        } else{
-            document.getElementById('message').innerHTML = '<b><i>A data precisa ser maior ou igual a hoje.</i></b>';
         }
     }
 </script>

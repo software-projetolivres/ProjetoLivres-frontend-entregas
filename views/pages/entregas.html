@@ -78,8 +78,10 @@
 
     /* função responsável por listar na tela algumas informações sobre as entregas daquela data que ainda não foram selecionadas nem entregues */
     async function mostrarEntregas(){
-        var mostrarErro = isDataPassada()
+        var mostrarErro = isDataPassada();
         if(mostrarErro){
+            document.getElementById('message').innerHTML = '<b><i>A data precisa ser maior ou igual a hoje.</i></b>';
+        } else{
             var entregas = await getEntregas();
             var html = '<button id="selecionar_entregas" class="selecionar" onclick="selecionarEntregas()">Selecionar Entregas</button><br>';
 
@@ -90,8 +92,6 @@
             }
 
             document.getElementById("lista_entregas").innerHTML = html;
-        } else{
-            document.getElementById('message').innerHTML = '<b><i>A data precisa ser maior ou igual a hoje.</i></b>';
         }
     }
 

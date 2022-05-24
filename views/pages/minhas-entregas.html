@@ -93,6 +93,8 @@
     async function mostrarEntregas(){
         var mostrarErro = isDataPassada()
         if(mostrarErro){
+            document.getElementById('message').innerHTML = '<b><i>A data precisa ser maior ou igual a hoje.</i></b>';
+        } else{
             var entregas = await getEntregasResp();
             var botoes = '<button id="resignar_entregas" onclick="atualizar(1)" style="width:100px;">Resignar</button>' +
                         '<button id="entregue" onclick="atualizar(2)" style="width:90px;margin-left:5px;">Entregue</button>' +
@@ -107,8 +109,6 @@
     
             document.getElementById("botoes").innerHTML = botoes;
             document.getElementById("lista_entregas").innerHTML = html;
-        } else{
-            document.getElementById('message').innerHTML = '<b><i>A data precisa ser maior ou igual a hoje.</i></b>';
         }
     }
 
