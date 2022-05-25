@@ -126,12 +126,9 @@
         const retorno = async () => {
             const r = await cadastro;
             if(r.status == 200){
-                console.log(r.status)
                 window.location.href = "/cadastro-completo";
             } else{
-                //window.location.href = "/cadastro";
-                console.log('a' + r.status);
-                console.log(r);
+                window.location.href = "/cadastro";
             }
         };
         
