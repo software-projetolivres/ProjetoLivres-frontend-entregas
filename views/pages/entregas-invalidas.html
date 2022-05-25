@@ -64,7 +64,7 @@
         } else{*/
             let entregasInvalidas = await getEntregasInvalidas();
 
-            if(entregas.length == 0 || entregas == null){   //se não há entregas cuja opção de entrega é sim e o endereço não esteja vazio
+            if(entregasInvalidas.length == 0 || entregasInvalidas == null){   //se não há entregas cuja opção de entrega é sim e o endereço não esteja vazio
                 document.getElementById("lista_entregas").innerHTML = 'Não há entregas inválidas para esta data.';
             } else{ //se trouxe entregas inválidas
                 var texto = "Relatório para entregas sem endereço para a data: " + entregasInvalidas[0].data_entrega + "\n";
