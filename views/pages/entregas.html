@@ -79,9 +79,9 @@
     /* função responsável por listar na tela algumas informações sobre as entregas daquela data que ainda não foram selecionadas nem entregues */
     async function mostrarEntregas(){
         var mostrarErro = isDataPassada();
-        if(mostrarErro){
+        /*if(mostrarErro){
             document.getElementById('message').innerHTML = '<b><i>A data precisa ser maior ou igual a hoje.</i></b>';
-        } else{
+        } else{*/
             var entregas = await getEntregas();
             if(entregas.length == 0 || entregas == null){
                 document.getElementById("lista_entregas").innerHTML = 'Ainda não há entregas para este dia para seleção.';
@@ -98,7 +98,7 @@
             } else{
                 document.getElementById("lista_entregas").innerHTML = JSON.stringify(entregas);
             }
-        }
+        //}
     }
 
     /* função responsável pela montagem do corpo da requisição de atualização para atualizar no BD as entregas que serão selecionadas */
