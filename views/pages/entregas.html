@@ -83,12 +83,9 @@
             document.getElementById('message').innerHTML = '<b><i>A data precisa ser maior ou igual a hoje.</i></b>';
         } else{
             var entregas = await getEntregas();
-            console.log(JSON.stringify(entregas))
             if(entregas.length == 0 || entregas == null){
                 document.getElementById("lista_entregas").innerHTML = 'Ainda não há entregas para este dia para seleção.';
-            } else if(entregas.message != null){
-                document.getElementById("lista_entregas").innerHTML = entregas.message;
-            } else{
+            } else if(entregas.length >= 1){
                 var html = '<button id="selecionar_entregas" class="selecionar" onclick="selecionarEntregas()">Selecionar Entregas</button><br>';
 
                 for(var i = 0; i < entregas.length; i++){
@@ -98,6 +95,8 @@
                 }
 
                 document.getElementById("lista_entregas").innerHTML = html;
+            } else{
+                document.getElementById("lista_entregas").innerHTML = JSON.stringify(entregas);
             }
         }
     }
