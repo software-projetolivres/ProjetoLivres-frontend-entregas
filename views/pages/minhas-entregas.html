@@ -95,12 +95,11 @@
         /*if(mostrarErro){
             document.getElementById('message').innerHTML = '<b><i>A data precisa ser maior ou igual a hoje.</i></b>';
         } else{ //se a data estiver válida*/
-            var entregas = await getEntregas();
+            var entregas = await getEntregasResp();
 
             if(entregas.length == 0 || entregas == null){   //se não há entregas cuja opção de entrega é sim e o endereço não esteja vazio
                 document.getElementById("lista_entregas").innerHTML = 'Ainda não há entregas para esta datas prontas para serem selecionadas.';
             } else if(entregas.length >= 1 && entregas[0].data_entrega != null){    //se trouxe entregas válidas
-                var entregas = await getEntregasResp();
                 var botoes = '<button id="resignar_entregas" onclick="atualizar(1)" style="width:100px;">Resignar</button>' +
                             '<button id="entregue" onclick="atualizar(2)" style="width:90px;margin-left:5px;">Entregue</button>' +
                             '<button id="gerar_rotas" onclick="gerarRotas()" style="width:120px;margin-left:5px;">Gerar Rotas</button><br>';
