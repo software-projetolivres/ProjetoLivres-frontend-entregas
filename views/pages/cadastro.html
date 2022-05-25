@@ -116,15 +116,15 @@
         const cadastro = fetch('https://livres-entregas.herokuapp.com/api/cadastroUsuario', {
             method: "POST",
             headers: {"Content-type":"application/json;charset=UTF-8"},
-            body: postData
+            body: JSON.stringify(postData)
         })
-        .then((response) => response.json())
         .then((data) => {
             return data;
         });
 
         const retorno = async () => {
             const r = await cadastro;
+            console.log(r)
             if(r.status == 200){
                 window.location.href = "/cadastro-completo";
             } else{
