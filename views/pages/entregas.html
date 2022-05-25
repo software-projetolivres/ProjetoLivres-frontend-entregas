@@ -85,7 +85,7 @@
             var entregas = await getEntregas();
             if(entregas.length == 0 || entregas == null){
                 document.getElementById("lista_entregas").innerHTML = 'Ainda não há entregas para este dia para seleção.';
-            } else if(entregas.length >= 1){
+            } else if(entregas.length >= 1 && entregas[0].dataEntrega != null){
                 var html = '<button id="selecionar_entregas" class="selecionar" onclick="selecionarEntregas()">Selecionar Entregas</button><br>';
 
                 for(var i = 0; i < entregas.length; i++){
