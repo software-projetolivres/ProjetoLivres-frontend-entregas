@@ -102,7 +102,7 @@
             "senha":senha
         }
 
-        fetch('https://livres-entregas.herokuapp.com/api/cadastroUsuario', {
+       /* fetch('https://livres-entregas.herokuapp.com/api/cadastroUsuario', {
             method: "POST",
             headers: {"Content-type": "application/json;charset=UTF-8"},
             body: JSON.stringify(postData)
@@ -111,6 +111,31 @@
           .then(json => console.log(json))
           .then(window.location.href = "/cadastro-completo")
           .catch(err => console.log(err));
+        }*/
+
+        const cadastro = fetch('https://livres-entregas.herokuapp.com/api/cadastroUsuario', {
+            method: "POST",
+            headers: {"Content-type":"application/json;charset=UTF-8"},
+            body: postData
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            return data;
+        });
+
+        const retorno = async () => {
+            const r = await cadastro;
+            if(r.status == 200){
+                console.log(r.status)
+                window.location.href = "/cadastro-completo";
+            } else{
+                //window.location.href = "/cadastro";
+                console.log('a' + r.status);
+                console.log(r);
+            }
+        };
+        
+        retorno();
     }
 </script>
 
