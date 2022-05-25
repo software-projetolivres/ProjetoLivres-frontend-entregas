@@ -92,9 +92,9 @@
     /* função responsável por listar na tela algumas informações sobre as entregas daquela data que foram selecionadas pelo entregador logado */
     async function mostrarEntregas(){
         var mostrarErro = isDataPassada()
-        if(mostrarErro){
+       /* if(mostrarErro){
             document.getElementById('message').innerHTML = '<b><i>A data precisa ser maior ou igual a hoje.</i></b>';
-        } else{ //se a data estiver válida
+        } else{ //se a data estiver válida*/
             var entregas = await getEntregasResp();
 
             if(entregas.length == 0 || entregas == null){   //se não há entregas cuja opção de entrega é sim e o endereço não esteja vazio
@@ -114,7 +114,7 @@
                 document.getElementById("botoes").innerHTML = botoes;
                 document.getElementById("lista_entregas").innerHTML = html;
             }
-        }
+        //}
     }
 
     /* função responsável pela montagem do corpo da requisição de atualização para atualizar no BD caso as entregas tenham sido marcadas como
