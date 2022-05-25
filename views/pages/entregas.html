@@ -83,6 +83,7 @@
             document.getElementById('message').innerHTML = '<b><i>A data precisa ser maior ou igual a hoje.</i></b>';
         } else{
             var entregas = await getEntregas();
+            console.log(entregas)
             if(entregas.length == 0 || entregas == null){
                 document.getElementById("lista_entregas").innerHTML = 'Ainda não há entregas para este dia para seleção.';
             } else if(entregas.message != null){
