@@ -79,13 +79,14 @@
     /* função responsável por listar na tela algumas informações sobre as entregas daquela data que ainda não foram selecionadas nem entregues */
     async function mostrarEntregas(){
         var mostrarErro = isDataPassada();
-        /*if(mostrarErro){
+        if(mostrarErro){
             document.getElementById('message').innerHTML = '<b><i>A data precisa ser maior ou igual a hoje.</i></b>';
-        } else{*/
+        } else{ //se a data estiver válida
             var entregas = await getEntregas();
-            if(entregas.length == 0 || entregas == null){
+
+            if(entregas.length == 0 || entregas == null){   //se não há entregas cuja opção de entrega é sim e o endereço não esteja vazio
                 document.getElementById("lista_entregas").innerHTML = 'Ainda não há entregas para esta datas prontas para serem selecionadas.';
-            } else if(entregas.length >= 1 && entregas[0].data_entrega != null){
+            } else if(entregas.length >= 1 && entregas[0].data_entrega != null){    //se trouxe entregas válidas
                 var html = '<button id="selecionar_entregas" class="selecionar" onclick="selecionarEntregas()">Selecionar Entregas</button><br>';
 
                 for(var i = 0; i < entregas.length; i++){
@@ -95,10 +96,10 @@
                 }
 
                 document.getElementById("lista_entregas").innerHTML = html;
-            } else{
+            } else{ //se não há pedidos para essa data
                 document.getElementById("lista_entregas").innerHTML = JSON.stringify(entregas);
             }
-        //}
+        }
     }
 
     /* função responsável pela montagem do corpo da requisição de atualização para atualizar no BD as entregas que serão selecionadas */
