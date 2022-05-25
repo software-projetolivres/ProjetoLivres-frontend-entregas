@@ -224,7 +224,8 @@
         renderPolyline(path, map);
 
         //criando os marcadores no mapa
-        for(i = 0; i <= responseMap.routes[0].legs.length; i++){
+        console.log(responseMap.routes[0].legs.length);
+        for(i = 0; i < responseMap.routes[0].legs.length; i++){
             let marker = new google.maps.Marker({
                 position: new google.maps.LatLng(responseMap.routes[0].legs[i].startLocation.lat, responseMap.routes[0].legs[i].startLocation.lng),
                 label: (i == 0 || i%4 == 0) ? 'Origem' : (i).toString(),
