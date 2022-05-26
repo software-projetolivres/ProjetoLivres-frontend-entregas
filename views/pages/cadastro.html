@@ -60,13 +60,14 @@
                         <label for="senha">Confirmar Senha</label>
                         <input type="password" name="confirm_password" id="confirm_password" onkeyup='check();'
                             required />
-                        <label id='message'></label>
+                        <label id="message"></label>
                     </div>
                 </fieldset>
             </form>
 
             <footer>
                 <p>
+                    <p id="respostaCadastro"></p>
                     <img src="/images/icons/warning.png" alt="Aviso importante">
                     Importante! <br>
                     Preencha todos os dados
@@ -102,25 +103,24 @@
             "senha":senha
         }
 
-        const cadastro = fetch('https://livres-entregas.herokuapp.com/api/cadastroUsuario', {
-            method: "POST",
-            headers: {"Content-type":"application/json;charset=UTF-8"},
-            body: JSON.stringify(postData)
-        })
-        .then((data) => {
-            return data;
-        });
+        function cadastro() {
+        return fetch('https://livres-entregas.herokuapp.com/api/cadastroUsuario', {
+                method: "POST",
+                headers: {"Content-type":"application/json;charset=UTF-8"},
+                body: JSON.stringify(postData)
+            })
+            .then(function(response) {
+                if(response.status == 200){
+                    window.location.href = "/cadastro-completo";
+                }
+                return response.text();
+            })
+            .then(function(data) {
+                document.getElementById("respostaCadastro").innerHTML =  "<b>" + data + "</b>";
+            })
+        }
 
-        const retorno = async () => {
-            const r = await cadastro;
-            if(r.status == 200){
-                window.location.href = "/cadastro-completo";
-            } else{
-                window.location.href = "/cadastro";
-            }
-        };
-        
-        retorno();
+        cadastro();
     }
 </script>
 
