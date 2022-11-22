@@ -35,7 +35,7 @@
         </header>
 
         <main>
-            <form id="authentication" method="post" action="https://livres-entregas.herokuapp.com/login">
+            <form id="authentication">
                 <fieldset>
                     <legend>Login</legend>
                     <div class="input-block">
@@ -51,7 +51,7 @@
             </form>
 
             <footer>
-                <button id="login" type="submit" form="authentication" onclick="store()">Entrar</button>
+                <button id="login" type="submit" onclick="clickLogin()">Entrar</button>
             </footer>
         </main>
 
@@ -60,12 +60,42 @@
 </body>
 
 <script>
-    function store(){
+    function clickLogin(){
+        //store
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
         sessionStorage.setItem('email', username);
         sessionStorage.setItem('authorization', btoa(username + ":" + password));
+
+        //login
+        event.preventDefault();
+
+        var postData = {
+            "username":username,
+            "password":password,
+        }
+
+        const formData = new FormData();
+        formData.append('username', username);
+        formData.append('password', password);
+
+        function realizarLogin() {
+            return fetch ('https://livres-entregas.herokuapp.com/login', {
+                method: 'POST',
+                body: formData
+           })
+             .then(function(response) {                
+                if(response.url.includes("error")){
+                   window.location.href = "/login";
+                } else {
+                    window.location.href = "/entregas";
+                }
+            })
+        }
+
+        realizarLogin();
     }
+
 </script>
 
 </html>

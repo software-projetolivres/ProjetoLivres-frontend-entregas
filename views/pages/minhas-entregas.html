@@ -122,27 +122,27 @@
     async function atualizar(opcao){
         var idsSelecionados = getIdsSelecionados()
         var email = sessionStorage.getItem('email');
-        var putData = '{"emailEntregador":"' + email + '", "entregas":['
+        var putData = '['
 
         if(opcao == 1){
             for(var i = 0; i < idsSelecionados.length; i++){   
                 if(i == (idsSelecionados.length - 1)){  //é o último a ser inserido
-                    putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":false, "entregue":false}]}'
+                    putData += '{"id":"' + idsSelecionados[i] + '", "selecionado":false, "entregue":false}]'
                 } else{
-                    putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":false, "entregue":false}, '
+                    putData += '{"id":"' + idsSelecionados[i] + '", "selecionado":false, "entregue":false}, '
                 }
             }
         } else{
             for(var i = 0; i < idsSelecionados.length; i++){    
                 if(i == (idsSelecionados.length - 1)){  //é o último a ser inserido
-                    putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":true, "entregue":true}]}'
+                    putData += '{"id":"' + idsSelecionados[i] + '", "selecionado":true, "entregue":true}]'
                 } else{
-                    putData += '{"id_entrega":"' + idsSelecionados[i] + '", "selecionado":true, "entregue":true}, '
+                    putData += '{"id":"' + idsSelecionados[i] + '", "selecionado":true, "entregue":true}, '
                 }
             }
         }
 
-        atualizarDados(putData)
+        atualizarDados(putData, email)
     }
     
     /* função responsável por gerar as rotas conforme entregas selecionadas através da chamada da api */
@@ -152,14 +152,14 @@
             document.getElementById('message').innerHTML = 'Você selecionou ' + idsSelecionados.length + ' entregas. A quantidade máxima para gerar rotas é 9.';
         } else{
             var jsonData;
-            var postData = '{"entregas":[';
+            var postData = '[';
             var url = 'https://livres-entregas.herokuapp.com/api/entregas/roteirizar';
 
             for(var i = 0; i < idsSelecionados.length; i++){
                 if(i == (idsSelecionados.length - 1)){  //é o último a ser inserido
-                    postData += '{"id_entrega":"' + idsSelecionados[i] + '"}]}'
+                    postData += '{"id":"' + idsSelecionados[i] + '"}]'
                 } else{
-                    postData += '{"id_entrega":"' + idsSelecionados[i] + '"}, '
+                    postData += '{"id":"' + idsSelecionados[i] + '"}, '
                 }
             }
     

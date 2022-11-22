@@ -48,8 +48,8 @@ function getIdsSelecionados() {
 }
 
 /* funçao responsável por realizar a chamada da api que atualiza os dados passados */
-async function atualizarDados(putData) {
-    var url = 'https://livres-entregas.herokuapp.com/api/entregas/atualizar';
+async function atualizarDados(putData, email) {
+    var url = 'https://livres-entregas.herokuapp.com/api/entregas/atualizar/' + email;
 
     try {
         let res = await fetch(url, {
